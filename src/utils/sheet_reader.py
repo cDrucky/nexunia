@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-
+from objects import Organization
 
 def get_file(filename="Organizations for Ecosystem Analysis.xlsx"):
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,13 +21,13 @@ def build_organization(df_row):
                 df_row["Service 4"], df_row["Service 5"]]
     business_lifecycle = [df_row["Idea"], df_row["Seed"], df_row["Startup"],
                           df_row["Growth"], df_row["Mature"], df_row["Exit"]]
-    return Organization(df_row['id'], df_row['Organization'], df_row['Address'],
+    return Organization(df_row['ID'], df_row['Organization'], df_row['Address'],
                         df_row['Location'], df_row['Notes'], df_row['Website'], df_row['Parent Organization'],
-                        "Industry", services, business_lifecycle)
+                        ["Industry"], services, business_lifecycle)
 
 
 sheet = get_file()
 df = get_df(sheet, 6)
 
 orgs = df.apply(build_organization, axis=1)
-print(orgs)
+print(orgs[0])

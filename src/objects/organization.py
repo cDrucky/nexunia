@@ -10,3 +10,6 @@ class Organization:
     notes: str
     website: str
     parent_organization: str
+    industry: list
+    service: list
+    lifecycle_stage: list
