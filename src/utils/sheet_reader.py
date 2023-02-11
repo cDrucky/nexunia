@@ -26,8 +26,4 @@ def build_organization(df_row):
                         ["Industry"], services, business_lifecycle)
 
 
-sheet = get_file()
-df = get_df(sheet, 6)
 
-orgs = df.apply(build_organization, axis=1)
-print(orgs[0])
