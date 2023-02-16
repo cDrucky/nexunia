@@ -1,6 +1,7 @@
 from py2neo import Graph, Relationship, Node
 from dotenv import load_dotenv
-from utils import Locations, BusinessLifecycles
+from business_lifecycles import BusinessLifecycles
+from locations import Locations
 import os
 
 load_dotenv()
@@ -23,6 +24,7 @@ def add_organization(org_node, graph=_graph): graph.merge(org_node, "Organizatio
 
 def create_org_location_connection(org, graph=_graph):
     pass
+
 
 def create_lifecycle_node(graph=_graph):
     lifecycles = [loc.value for loc in list(BusinessLifecycles)]

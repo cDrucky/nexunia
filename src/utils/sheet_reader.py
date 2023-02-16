@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from objects import Organization
 
+
 def get_file(filename="Organizations for Ecosystem Analysis.xlsx"):
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
