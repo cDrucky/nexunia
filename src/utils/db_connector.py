@@ -21,8 +21,19 @@ def create_org_nodes(orgs):
 def add_organization(org_node, graph=_graph): graph.merge(org_node, "Organization", "name")
 
 
+def get_location_node(graph, location_name):
+    return graph.nodes.match("Location", name=location_name).first()
+
 def create_org_location_connection(org, graph=_graph):
-    pass
+    org_node = graph.nodes.match("Organization", name=org.name).first()
+    
+    for location in Locations:
+        if location.value in org.serviced_locations:
+            location_node = get_location_node(graph, location.value)
+            relationship = Relationship(org_node, "SERVICES", location_node)
+            graph.merge(relationship, "SERVICES", "name")
+
+    
 
 def create_lifecycle_node(graph=_graph):
     lifecycles = [loc.value for loc in list(BusinessLifecycles)]
@@ -38,7 +49,6 @@ def create_location_node(graph=_graph):
         graph.merge(node, "Location", "name")
 
 
-create_lifecycle_node()
-create_location_node()
-
+# create_lifecycle_node()
+# create_location_node()
 

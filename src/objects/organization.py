@@ -13,3 +13,4 @@ class Organization:
     industry: list
     service: list
     lifecycle_stage: list
+    serviced_locations: list

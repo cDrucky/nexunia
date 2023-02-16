@@ -15,7 +15,6 @@ class BusinessLifecycles(Enum):
     MATURE = "Mature"
     EXIT = "Exit"
 
-
 class Locations(Enum):
     HARRISBURG = "Harrisburg"
     YORK = "York"
