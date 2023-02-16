@@ -1,5 +1,5 @@
 from utils import orgs
-from utils.db_connector import create_org_nodes, add_organization
+from utils.db_connector import create_org_nodes, add_organization, create_org_location_connection, create_org_lifecycle_connection
 
 
 def generate_org_nodes():
@@ -7,6 +7,10 @@ def generate_org_nodes():
 
     for node in org_nodes:
         add_organization(node)
+
+    for org in orgs:
+        create_org_location_connection(org)
+        create_org_lifecycle_connection(org)
 
 
 if __name__ == '__main__':
