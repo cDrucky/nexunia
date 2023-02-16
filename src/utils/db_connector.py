@@ -33,6 +33,7 @@ def get_lifecycle_node(graph, lifecycle_name):
 def create_org_location_connection(org, graph=_graph):
     org_node = graph.nodes.match("Organization", name=org.name).first()
 
+
     for location in Locations:
         if location.value in org.serviced_locations:
             location_node = get_location_node(graph, location.value)
@@ -63,7 +64,6 @@ def create_location_node(graph=_graph):
         graph.merge(node, "Location", "name")
 
 
-create_lifecycle_node()
-create_location_node()
-
+# create_lifecycle_node()
+# create_location_node()
 

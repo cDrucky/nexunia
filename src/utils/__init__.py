@@ -8,3 +8,7 @@ orgs = df.apply(build_organization, axis=1)
 
 
 
+class Locations(Enum):
+    HARRISBURG = "Harrisburg"
+    YORK = "York"
+    LANCASTER = "Lancaster"
