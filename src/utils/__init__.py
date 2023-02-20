@@ -5,10 +5,3 @@ sheet = get_file()
 df = get_df(sheet, 6)
 
 orgs = df.apply(build_organization, axis=1)
-
-
-
-class Locations(Enum):
-    HARRISBURG = "Harrisburg"
-    YORK = "York"
-    LANCASTER = "Lancaster"
