@@ -6,10 +6,11 @@ import os
 
 load_dotenv()
 database_password = os.getenv("DATABASE_PASSWORD")
+database_user = os.getenv("DATABASE_USER")
+database_uri = os.getenv("DATABASE_HOST")
 
-uri = "bolt://localhost:7687"
 
-_graph = Graph(uri, user="neo4j", password=database_password)
+_graph = Graph(database_uri, user=database_user, password=database_password)
 
 
 def create_org_nodes(orgs):
