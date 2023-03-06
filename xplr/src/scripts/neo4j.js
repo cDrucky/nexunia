@@ -1,9 +1,9 @@
 import neo4j from "neo4j-driver"
 
-const uri = "neo4j+s://fea84528.databases.neo4j.io"
-const user = "neo4j"
-const password = "DLYNNOZvZ4jb1iOQ9_IJC43x6OqQ4neClbRLIebFv8o"
-
+const uri = process.env.REACT_APP_NEO4J_URI
+const user = process.env.REACT_APP_NEO4J_USER
+// const password = "DLYNNOZvZ4jb1iOQ9_IJC43x6OqQ4neClbRLIebFv8o"
+const password = process.env.REACT_APP_NEO4J_PASSWORD
 const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
 
 export async function findOrganizationsConnectedToLocation(

@@ -15,7 +15,11 @@ export default function Selector({ updateForm }) {
 	}
 
 	const buildDropdown = (items, label, fr, state, change) => {
-		const ops = items.map((item) => <option value={item}>{item}</option>)
+		const ops = items.map((item, idx) => (
+			<option key={idx} value={item}>
+				{item}
+			</option>
+		))
 		return (
 			<div>
 				<label htmlFor={fr}>{label}</label>

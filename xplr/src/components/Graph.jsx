@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { OrgNode, Relationship, LocationNode, LifecycleNode } from "../models"
+import { GraphVisualization } from "."
 
 const locations = ["Harrisburg", "York", "Lancaster"]
 const lifecycles = ["Idea", "Seed", "Startup", "Growth", "Mature", "Exit"]
@@ -31,20 +32,20 @@ export default function Graph({ organizations }) {
 	}
 
 	const buildRelatonships = () => {
-		var locationConns
-		var lifecycleConns
-		organizations.forEach((org, index) => {
-			locationConns = org.location.map(
-				(loc, idx) =>
-					new Relationship(index, org, null, "SERVICES", null)
-			)
-			lifecycleConns = org.lifecycles.map(
-				(lf, idx) =>
-					new Relationship(index, org, null, "SERVICES", null)
-			)
-		})
+		const relationships = []
 
-		setRelationhips(locationConns.concat(lifecycleConns))
+		organizations.forEach((org, index) => {
+			const locationConns = org.locations.map((loc, idx) => {
+				return new Relationship(index, org, null, "SERVICES", null)
+			})
+
+			const lifecycleConns = org.lifecycles.map((lf, idx) => {
+				return new Relationship(index, org, null, "SERVICES", null)
+			})
+
+			relationships.push(...locationConns, ...lifecycleConns)
+		})
+		setRelationhips(relationhips)
 	}
 
 	useEffect(() => {
@@ -52,5 +53,10 @@ export default function Graph({ organizations }) {
 		buildRelatonships()
 	}, [organizations, nodes, relationhips])
 
-	return <div>Graph</div>
+	return (
+		<GraphVisualization
+			nodes={nodes ? nodes : []}
+			relationhips={relationhips ? relationhips : []}
+		/>
+	)
 }
