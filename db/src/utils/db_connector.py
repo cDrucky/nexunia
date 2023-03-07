@@ -1,16 +1,7 @@
-from py2neo import Graph, Relationship, Node
-from dotenv import load_dotenv
+from py2neo import Relationship, Node
 from .business_lifecycles import BusinessLifecycles
 from .locations import Locations
-import os
-
-load_dotenv()
-database_password = os.getenv("DATABASE_PASSWORD")
-database_user = os.getenv("DATABASE_USER")
-database_uri = os.getenv("DATABASE_HOST")
-
-
-_graph = Graph(database_uri, user=database_user, password=database_password)
+from utils import graph as _graph
 
 
 def create_org_nodes(orgs):
