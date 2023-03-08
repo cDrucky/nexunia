@@ -5,9 +5,9 @@ results = graph.run(query)
 
 # Define a dictionary to map node_type to color
 type_to_color = {
-    'Organizations': 'red',
-    'Locations': 'blue',
-    'Lifecycles': 'green'
+    'Organization': 'red',
+    'Location': 'blue',
+    'Lifecycle': 'green'
 }
 
 # Convert the results into a format that Dash Cytoscape can understand
@@ -17,7 +17,7 @@ edges = []
 for record in results:
     # Add nodes to the list
     if record['o'].identity not in [node['data']['id'] for node in nodes]:
-        node_type = 'Organizations'
+        node_type = 'Organization'
         nodes.append({
             'data': {
                 'id': str(record['o'].identity),
@@ -30,7 +30,7 @@ for record in results:
             }
         })
     if record['l'].identity not in [node['data']['id'] for node in nodes]:
-        node_type = 'Locations'
+        node_type = 'Location'
         nodes.append({
             'data': {
                 'id': str(record['l'].identity),
@@ -40,7 +40,7 @@ for record in results:
             }
         })
     if record['lc'].identity not in [node['data']['id'] for node in nodes]:
-        node_type = 'Lifecycles'
+        node_type = 'Lifecycle'
         nodes.append({
             'data': {
                 'id': str(record['lc'].identity),

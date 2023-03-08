@@ -10,7 +10,6 @@ from dash.dependencies import Input, Output
 app = Flask(__name__)
 dash_app = Dash(__name__, server=app)
 
-print(elements)
 # Define the layout of the Dash app
 dash_app.layout = cyto.Cytoscape(
     id='cytoscape-graph',
@@ -25,10 +24,11 @@ dash_app.layout = cyto.Cytoscape(
     Input('cytoscape-graph', 'tapNodeData')
 )
 def update_stylesheet(node_data):
+    print(node_data)
     if node_data is None:
         # No node is selected
         return default_stylesheet
-    else:
+    elif node_data['node_type'] == "Organization":
         # A node is selected
         node_color = node_data['node_color']
         return [
@@ -41,6 +41,30 @@ def update_stylesheet(node_data):
                     'border-width': '2px',
                     'background-color': node_color
                 }
+            },
+            {
+                "selector": "node[node_color]",
+                "style": {
+                    "label": "data(label)",
+                    "color": "black",
+                    "text-valign": "center",
+                    "text-halign": "center",
+                    "background-color": "data(node_color)",
+                    "opacity": 0.65,
+                    "z-index": 9999,
+                },
+            },
+            {
+                "selector": "node[!node_color]",
+                "style": {
+                    "label": "data(label)",
+                    "color": "black",
+                    "text-valign": "center",
+                    "text-halign": "center",
+                    "background-color": "grey",
+                    "opacity": 0.65,
+                    "z-index": 9999,
+                },
             },
             {
                 'selector': f'node[id="{node_data["id"]}"]:selected',
