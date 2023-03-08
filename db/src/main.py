@@ -5,9 +5,12 @@ from viz import elements
 from initializer import initialize_app
 from viz.stylesheets import default_stylesheet
 from dash.dependencies import Input, Output
+from views import my_blueprint
 
 
 app = Flask(__name__)
+app.register_blueprint(my_blueprint)
+
 dash_app = Dash(__name__, server=app)
 
 # Define the layout of the Dash app
