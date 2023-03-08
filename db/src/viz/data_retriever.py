@@ -22,6 +22,9 @@ for record in results:
             'data': {
                 'id': str(record['o'].identity),
                 'label': record['o']['name'],
+                'website': record['o']['website'],
+                'notes': record['o']['notes'],
+                'address': record['o']['address'],
                 'node_type': node_type,
                 'node_color': type_to_color.get(node_type, 'gray')
             }
@@ -48,6 +51,7 @@ for record in results:
         })
 
     # Add edges to the list
+
     edges.append({
         'data': {
             'id': f"{record['o'].identity}-SERVICES->{record['l'].identity}",
@@ -55,6 +59,7 @@ for record in results:
             'target': str(record['l'].identity)
         }
     })
+
     edges.append({
         'data': {
             'id': f"{record['o'].identity}-PROVIDES->{record['lc'].identity}",
