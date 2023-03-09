@@ -1,27 +1,55 @@
-from utils import orgs
-from utils.db_connector import create_org_nodes, add_organization, create_org_location_connection, create_org_lifecycle_connection, create_lifecycle_node, create_location_node
+from flask import Flask, request, redirect, url_for
+from dash import Dash
+import dash_cytoscape as cyto
+from viz import get_elements, query_builder, default_query
+from viz.callbacks import update_stylesheet_callback
+from viz.stylesheets import default_stylesheet
+from dash.dependencies import Input, Output
+from views import my_blueprint
 
-def generate_org_nodes():
-    org_nodes = create_org_nodes(orgs)
 
-    for node in org_nodes:
-        add_organization(node)
-        
-def generate_org_relationships():
-    for org in orgs:
-        create_org_location_connection(org)
 
-    for org in orgs:
-        create_org_location_connection(org)
-        create_org_lifecycle_connection(org)
+app = Flask(__name__)
+app.register_blueprint(my_blueprint)
+
+dash_app = Dash(__name__, server=app)
+
+# Define the layout of the Dash app
+dash_app.layout = cyto.Cytoscape(
+    id='cytoscape-graph',
+    style={'width': '100%', 'height': '100vh'},
+    elements=get_elements(default_query),
+    stylesheet=default_stylesheet,
+)
+
+
+@app.route('/update')
+def update_elements():
+    location = request.args.get('location')
+    lifecycle = request.args.get('lifecycle')
+    updated_query = query_builder(location, lifecycle)
+    updated_elements = get_elements(updated_query)
+    dash_app.layout = cyto.Cytoscape(
+        id='cytoscape-graph',
+        style={'width': '100%', 'height': '100vh'},
+        elements=updated_elements,
+        stylesheet=default_stylesheet,
+    )
+    return dash_app.index()
+
+
+
+@dash_app.callback(
+    Output('cytoscape-graph', 'stylesheet'),
+    Input('cytoscape-graph', 'tapNodeData')
+)
+def update_stylesheet(node_data):
+    return update_stylesheet_callback(node_data)
 
 
 if __name__ == '__main__':
-    create_lifecycle_node()
-    create_location_node()
+    app.run(debug=True)
 
-    generate_org_nodes()
-    generate_org_relationships()
 
 
 
