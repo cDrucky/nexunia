@@ -1,4 +1,4 @@
-query = """
+default_query = """
 MATCH (o:Organization)
 WHERE o.location = 'York'
 MATCH (o)-[:SERVICES]->(l:Location)
