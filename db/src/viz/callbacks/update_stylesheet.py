@@ -10,7 +10,6 @@ def focus_node_callback(node_data, location, lifecycle, dash_app):
     elif node_data['node_type'] == "Organization":
         # A node is selected
         node_color = node_data['node_color']
-        print(location, lifecycle)
         query = service_expansion_query(node_data['label'], location, lifecycle)
         elements = get_elements(query)
         return elements

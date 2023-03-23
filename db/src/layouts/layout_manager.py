@@ -3,7 +3,6 @@ from viz.stylesheets import default_stylesheet
 
 
 def update_layout(dash_app, elements):
-    print(elements)
     dash_app.layout = cyto.Cytoscape(
         id='cytoscape-graph',
         style={'width': '100%', 'height': '100vh'},

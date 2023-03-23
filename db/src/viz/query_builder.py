@@ -19,22 +19,26 @@ def full_params_query(location="Harrisburg", lifecycle="Growth", services="Fundi
     _query += "RETURN o, l, lc, s"
     return _query
 
-'''
-f"MATCH (l:Location {name: '{location}'})<-[:SERVICES]-(o:Organization)-[:PROVIDES]->(lc:Lifecycle {name: '{lifecycle}'})
-f"OPTIONAL MATCH (o)-[:HANDLES]->(s:Service)
-f"WHERE o.name = '{organization_name}'
-f"RETURN o, l, lc, s
-'''
+# def service_expansion_query(organization_name, location, lifecycle):
+#     query = (
+#         f"MATCH (o:Organization)-[:SERVICES]->(l:Location) WHERE l.name = '{location}' "
+#         f"MATCH (o)-[:PROVIDES]->(lc:Lifecycle) WHERE lc.name = '{lifecycle}' "
+#         f"MATCH (o)-[:HANDLES]->(s:Service) WHERE o.name = '{organization_name}' "
+#         "RETURN o, l, lc, s"
+#     )
+#     print(query)
+#     return query
+
+
 def service_expansion_query(organization_name, location, lifecycle):
     query = (
-        f"MATCH (o:Organization)-[:SERVICES]->(l:Location) WHERE l.name = '{location}' "
-        f"MATCH (o)-[:PROVIDES]->(lc:Lifecycle) WHERE lc.name = '{lifecycle}' "
-        f"MATCH (o)-[:HANDLES]->(s:Service) WHERE o.name = '{organization_name}' "
+        f"MATCH (l:Location {{name: '{location}'}})<-[:SERVICES]-(o:Organization)-[:PROVIDES]->(lc:Lifecycle {{name: '{lifecycle}'}})\n"
+        f"OPTIONAL MATCH (o)-[:HANDLES]->(s:Service)\n"
+        f"WHERE o.name = '{organization_name}'\n"
         "RETURN o, l, lc, s"
     )
-    print(query)
+    # print(query)
     return query
-
 
 
 

@@ -70,14 +70,9 @@ def focus_org(node_data):
     if node_data is None:
         return dash.no_update
     else:
-        print(_url_params)
         elements = focus_node_callback(node_data, _url_params.location[0], _url_params.lifecycle[0], dash_app)
-        print("MAIN", len(elements))
         update_layout(dash_app, elements)
-        print("TEST")
         return elements
-        # return dash_app.index()
-
 
 
 if __name__ == '__main__':
