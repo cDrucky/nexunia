@@ -29,6 +29,7 @@ def get_nodes(record, nodes):
         's': 'Service'
     }
     for node_type, label_attr in node_types.items():
+        print(node_type, label_attr ,record)
         if record[node_type].identity not in [node['data']['id'] for node in nodes]:
             nodes.append({
                 'data': {
