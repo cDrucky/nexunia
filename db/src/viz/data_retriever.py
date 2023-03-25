@@ -28,7 +28,6 @@ def get_nodes(record, nodes):
         'lc': 'Lifecycle',
         's': 'Service'
     }
-    print("Record:", record)
     for node_type, label_attr in node_types.items():
         if record[node_type] is not None:
             if record[node_type].identity not in [node['data']['id'] for node in nodes]:
@@ -96,3 +95,4 @@ def get_elements(query):
 
     elements = nodes + edges
     return elements
+

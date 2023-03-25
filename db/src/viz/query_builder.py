@@ -36,7 +36,26 @@ def service_expansion_query(organization_name, location, lifecycle):
         f"WHERE o.name = '{organization_name}'\n"
         "RETURN o, l, lc, s"
     )
-    # print(query)
+    return query
+
+'''
+MATCH (o:Organization {name: 'Harrisburg Regional Chamber & Capital Region Economic Development Corporation'})-[:PROVIDES]->(lc:Lifecycle)
+MATCH (o)-[:SERVICES]->(l:Location)
+MATCH (o)-[:HANDLES]->(s:Service)
+RETURN o, lc, l, s
+
+'''
+
+
+def get_single_element(organization_name):
+    query = (
+        f"MATCH (o:Organization {{name: '{organization_name}'}})-[:PROVIDES]->(lc:Lifecycle)\n"
+        f"MATCH (o)-[:HANDLES]->(s:Service)\n"
+        f"MATCH (o)-[:SERVICES]->(l:Location)\n"
+        f"MATCH (o)-[:HANDLES]->(s:Service)\n"
+        "RETURN o, l, lc, s"
+    )
+    print(query)
     return query
 
 
