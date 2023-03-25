@@ -9,7 +9,7 @@ from .business_lifecycles import BusinessLifecycles
 def get_file(filename="Organizations for Ecosystem Analysis.xlsx"):
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    organization_xl_path = os.path.join(current_dir, '..', '..', 'data', filename)
+    organization_xl_path = os.path.join(current_dir, '..', '..', '..', 'data', filename)
 
     return organization_xl_path
 

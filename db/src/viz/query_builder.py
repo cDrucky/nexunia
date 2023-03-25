@@ -1,9 +1,8 @@
 default_query = """
 MATCH (o:Organization)
-MATCH (o)-[:SERVICES]->(l:Location) WHERE l.name = 'Harrisburg'
-MATCH (o)-[:PROVIDES]->(lc:Lifecycle) WHERE lc.name = 'Growth'
+MATCH (o)-[:SERVICES]->(l:Location)
+MATCH (o)-[:PROVIDES]->(lc:Lifecycle)
 MATCH (o)-[:HANDLES]->(s:Service)
-WHERE s.name IN ['Funding'] 
 RETURN o, l, lc, s
 """
 

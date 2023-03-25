@@ -18,7 +18,7 @@ class _URL_PARAMS:
         self.services = ""
 
     def __str__(self):
-        return f"Location {self.location}, Lifecyle: {self.lifecycle}, Services: {self.services}"
+        return f"Location {self.location}, Lifecycle: {self.lifecycle}, Services: {self.services}"
 
 _url_params = _URL_PARAMS()
 
@@ -34,7 +34,7 @@ dash_app.layout = cyto.Cytoscape(
     style={'width': '100%', 'height': '100vh'},
     elements=get_elements(default_query),
     layout={
-        'name': 'concentric',
+        'name': 'random',
         'minNodeSpacing': 80,
         'spacingFactor': 1.5,
         'animate': False,
@@ -67,6 +67,7 @@ def update_elements():
     Input('cytoscape-graph', 'tapNodeData'),
 )
 def focus_org(node_data):
+    print(_url_params)
     if node_data is None:
         return dash.no_update
     else:
