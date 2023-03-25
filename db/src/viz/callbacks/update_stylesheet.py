@@ -1,13 +1,19 @@
 from viz.stylesheets import default_stylesheet
+from viz import get_elements, service_expansion_query
+from layouts.layout_manager import update_layout
 
-def update_stylesheet_callback(node_data):
+
+def focus_node_callback(node_data, location, lifecycle, dash_app):
     if node_data is None:
         # No node is selected
         return default_stylesheet
     elif node_data['node_type'] == "Organization":
         # A node is selected
         node_color = node_data['node_color']
-        return [
+        query = service_expansion_query(node_data['label'], location, lifecycle)
+        elements = get_elements(query)
+        return elements
+        '''return [
             {
                 'selector': f'node[id="{node_data["id"]}"]',
                 'style': {
@@ -104,4 +110,4 @@ def update_stylesheet_callback(node_data):
                     'border-width': '2px'
                 }
             }
-        ]
+        ]'''

@@ -1,1 +1,1 @@
-from .update_stylesheet import update_stylesheet_callback
+from .update_stylesheet import focus_node_callback
