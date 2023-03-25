@@ -21,11 +21,18 @@ class _URL_PARAMS:
 
 _url_params = _URL_PARAMS()
 
+external_stylesheets = [
+    dbc.themes.BOOTSTRAP,
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+    'https://use.fontawesome.com/releases/v5.15.3/css/all.css',  # Font Awesome stylesheet
+    "fontawesome_free/js/all.min.js"
+]
+
 
 app = Flask(__name__)
 app.register_blueprint(my_blueprint)
 
-dash_app = Dash(__name__, server=app, external_stylesheets=[dbc.themes.BOOTSTRAP])
+dash_app = Dash(__name__, server=app, external_stylesheets=external_stylesheets)
 
 # Define the layout of the Dash app
 dash_app.layout = dbc.Container([cyto.Cytoscape(
@@ -44,15 +51,13 @@ dash_app.layout = dbc.Container([cyto.Cytoscape(
 
     stylesheet=default_stylesheet,
 ),
-    dbc.Card(
+    html.Div(
         id='node-info',
         style={
             'position': 'absolute',
             'top': '0px',
             'right': '0px',
             'width': '400px',
-            'height': '100%',
-            'border': '1px solid #ddd'
         }
     )]
 )
@@ -79,18 +84,14 @@ def parse_elements(data):
     return organization, locations, services, lifecycles
 
 
-def build_declaration(field, items, is_badge=False):
-    i = ""
-    for item in items:
-        i += f"{item} "
+def build_service_pills(items):
 
-    if is_badge:
-        return html.Span([dbc.Badge(str(service), pill=True, color="warning", className="me-1") for service in items])
+    return html.Span([dbc.Badge(str(service), pill=True, color="warning", className="m-2") for service in items])
 
-    return f"{field}{i}"
 
 
 import dash_bootstrap_components as dbc
+
 
 def make_collapse_from_set(lifecycles):
     # Define a list of all possible lifecycles
@@ -103,7 +104,7 @@ def make_collapse_from_set(lifecycles):
         if lifecycle in lifecycles:
             style = {}
         else:
-            style={"color": "lightgrey"}
+            style = {"color": "lightgrey"}
         # Create the Collapse component
         collapse = dbc.Collapse(
             [
@@ -114,10 +115,7 @@ def make_collapse_from_set(lifecycles):
             style=style,
         )
         collapses.append(collapse)
-    return dbc.Card(dbc.CardBody(collapses), style={"border": "none"})
-
-
-
+    return dbc.CardBody(collapses, style={"border": "none"})
 
 
 @app.route('/update')
@@ -135,6 +133,7 @@ def update_elements():
     update_layout(dash_app, updated_elements)
     return dash_app.index()
 
+
 @dash_app.callback(
     Output('node-info', 'children'),
     Input('cytoscape-graph', 'tapNodeData'),
@@ -143,20 +142,24 @@ def display_node_info(node_data):
     if node_data is None:
         return None
     else:
-        print(node_data)
         elements = get_elements(get_single_element(node_data["label"]))
         o, l, s, lc = parse_elements(elements)
 
-
-        node_info_contents = html.Div([
-            html.H3(html.A(o['label'], href=o["website"])),
-            build_declaration("", s, True),
-            make_collapse_from_set(lc),
-            html.P(o["notes"]),
-            html.P(o["address"]),
-        ], style={'border': '1px solid #ddd'})
+        node_info_contents = dbc.Card(
+            [
+                dbc.CardHeader([html.H3(html.A(o['label'], href=o["website"]))]),
+                build_service_pills(s),
+                make_collapse_from_set(lc),
+                dbc.CardBody(o["notes"]),
+                dbc.CardFooter([
+                    html.I(className='fas fa-hashtag', style={'padding': '10px'}),
+                    html.I(className='fas fa-rocket', style={'padding': '10px'}),
+                    html.I(className='fas fa-camera', style={'padding': '10px'}),
+                    html.I(className='fas fa-check', style={'padding': '10px'}),
+                ]
+                ),
+            ], style={'border': '1px solid #ddd'})
         return node_info_contents
-
 
 if __name__ == '__main__':
     app.run(debug=True)

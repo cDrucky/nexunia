@@ -55,7 +55,6 @@ def get_single_element(organization_name):
         f"MATCH (o)-[:HANDLES]->(s:Service)\n"
         "RETURN o, l, lc, s"
     )
-    print(query)
     return query
 
 
