@@ -21,6 +21,27 @@ def update_layout(dash_app, elements):
 
         html.Div(
             id='node-info',
-            style={'position': 'absolute', 'top': '0px', 'right': '0px', 'width': '400px', 'height': '100%'}
-        )]
+            style={
+                'position': 'absolute',
+                'top': '0px',
+                'right': '0px',
+                'width': '20rem',
+                'height': '100%'
+            }
+        )],
+        # Use media queries to adjust the positioning of the 'node-info' Div
+        style={
+            '@media (max-width: 767px)': {
+                '#node-info': {
+                    'position': 'fixed',
+                    'width': '100%',
+                    'height': '20rem',
+                    'bottom': '0px',
+                    'right': 'auto',
+                    'left': '0px',
+                    'background-color': 'white'
+                }
+            }
+        }
+
     )

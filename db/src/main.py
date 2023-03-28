@@ -8,6 +8,13 @@ from dash.dependencies import Input, Output
 from views import my_blueprint
 from layouts.layout_manager import update_layout
 
+twitter = 'static/twitter.svg'
+linkedin = 'static/linkedin.svg'
+facebook = 'static/facebook.svg'
+instagram = 'static/instagram.svg'
+tiktok = 'static/tiktok.svg'
+
+
 
 class _URL_PARAMS:
     def __init__(self):
@@ -57,7 +64,7 @@ dash_app.layout = dbc.Container([cyto.Cytoscape(
             'position': 'absolute',
             'top': '0px',
             'right': '0px',
-            'width': '400px',
+            'width': '20rem',
         }
     )]
 )
@@ -138,7 +145,7 @@ def update_elements():
     Output('node-info', 'children'),
     Input('cytoscape-graph', 'tapNodeData'),
 )
-def display_node_info(node_data):
+def display_node_info(node_data,):
     if node_data is None:
         return None
     else:
@@ -148,18 +155,20 @@ def display_node_info(node_data):
         node_info_contents = dbc.Card(
             [
                 dbc.CardHeader([html.H3(html.A(o['label'], href=o["website"]))]),
+                dbc.CardBody(o["notes"]),
                 build_service_pills(s),
                 make_collapse_from_set(lc),
-                dbc.CardBody(o["notes"]),
                 dbc.CardFooter([
-                    html.I(className='fas fa-hashtag', style={'padding': '10px'}),
-                    html.I(className='fas fa-rocket', style={'padding': '10px'}),
-                    html.I(className='fas fa-camera', style={'padding': '10px'}),
-                    html.I(className='fas fa-check', style={'padding': '10px'}),
+                    html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"),
                 ]
                 ),
             ], style={'border': '1px solid #ddd'})
         return node_info_contents
+
 
 if __name__ == '__main__':
     app.run(debug=True)
