@@ -4,16 +4,17 @@ import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
 from viz import get_elements, full_params_query, default_query, get_single_element
 from viz.stylesheets import default_stylesheet
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from views import my_blueprint
 from layouts.layout_manager import update_layout
+cyto.load_extra_layouts()
 
 twitter = 'static/twitter.svg'
 linkedin = 'static/linkedin.svg'
 facebook = 'static/facebook.svg'
 instagram = 'static/instagram.svg'
 tiktok = 'static/tiktok.svg'
-
+info = 'static/info.svg'
 
 
 class _URL_PARAMS:
@@ -44,16 +45,15 @@ dash_app = Dash(__name__, server=app, external_stylesheets=external_stylesheets)
 # Define the layout of the Dash app
 dash_app.layout = dbc.Container([cyto.Cytoscape(
     id='cytoscape-graph',
-    style={'width': '100%', 'height': '100vh'},
+    style={'width': '100vw', 'height': '100vh'},
     elements=get_elements(default_query),
     layout={
-        'name': 'random',
-        'minNodeSpacing': 80,
+        'name': 'cose-bilkent',
+        'minNodeSpacing': 1200,
         'spacingFactor': 1.5,
-        'animate': False,
-        'animationDuration': 500,
-        'animationEasing': 'ease-in-out',
-        'boundingBox': {'x1': -500, 'y1': -500, 'x2': 500, 'y2': 500},
+        'boundingBox': {'x1': -500, 'y1': -500, 'x2': 1500, 'y2': 1500},
+        'nodeOverlap': -10,
+        'nodeRepulsion': 1000000,
     },
 
     stylesheet=default_stylesheet,
@@ -100,7 +100,7 @@ def build_service_pills(items):
 import dash_bootstrap_components as dbc
 
 
-def make_collapse_from_set(lifecycles):
+def make_lifecycle(lifecycles):
     # Define a list of all possible lifecycles
     all_lifecycles = ["Idea", "Seed", "Startup", "Growth", "Mature", "Exit"]
     # Create an empty list to store the Collapse components
@@ -115,7 +115,8 @@ def make_collapse_from_set(lifecycles):
         # Create the Collapse component
         collapse = dbc.Collapse(
             [
-                dbc.CardBody(lifecycle)
+                dbc.CardBody(lifecycle),
+
             ],
             id=f"collapse-{lifecycle}",
             is_open=True,
@@ -141,33 +142,74 @@ def update_elements():
     return dash_app.index()
 
 
+
+
 @dash_app.callback(
     Output('node-info', 'children'),
     Input('cytoscape-graph', 'tapNodeData'),
 )
-def display_node_info(node_data,):
+def display_node_info(node_data):
     if node_data is None:
         return None
     else:
+
         elements = get_elements(get_single_element(node_data["label"]))
         o, l, s, lc = parse_elements(elements)
 
+        img = html.Img(src=info, id="click-target", style={'width': '14px', 'height': '14px', }, className="mx-2")
+        popover = dbc.Popover(
+            "DUMMY TEXT",
+            target="click-target",
+            body=True,
+            trigger="click",
+            placement="left"
+        )
+        lifecycle_stages = html.P("Lifecycle Stages")
+
         node_info_contents = dbc.Card(
             [
-                dbc.CardHeader([html.H3(html.A(o['label'], href=o["website"]))]),
+                dbc.CardHeader([
+                    html.H3(html.A(o['label'], href=o["website"])),
+                    # html.Button("X", id="dismiss-btn", className="ml-auto")
+                ]),
                 dbc.CardBody(o["notes"]),
                 build_service_pills(s),
-                make_collapse_from_set(lc),
+                html.Img(src=info, id="click-target", style={'width': '14px', 'height': '14px',  }, className="mx-2"),
+
+                dbc.Popover(
+                    "DUMMY TEXT",
+                    target="click-target",
+                    body=True,
+                    trigger="click",
+                    placement="left"
+
+                ),
+                html.P("Lifecycle Stages"),
+                make_lifecycle(lc),
                 dbc.CardFooter([
-                    html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                    html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                    html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"),
                     html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"),
+                    html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"),
                     html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"),
+
                 ]
                 ),
-            ], style={'border': '1px solid #ddd'})
+            ], id="node-info",
+            style={'border': '1px solid #ddd'})
         return node_info_contents
+
+# @dash_app.callback(
+#     Output('node-info', 'children'),
+#     Input('dismiss-btn', 'n_clicks'),
+#     State('node-info', 'children')
+# )
+# def dismiss_node_info(n_clicks, node_info_children):
+#     print("TEST")
+#     if n_clicks:
+#         return None
+#     else:
+#         return node_info_children
 
 
 if __name__ == '__main__':

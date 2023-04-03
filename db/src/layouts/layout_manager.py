@@ -1,5 +1,5 @@
 import dash_cytoscape as cyto
-from viz.stylesheets import default_stylesheet
+from viz.stylesheets import queried_stylesheet
 from dash import html
 
 
@@ -17,7 +17,7 @@ def update_layout(dash_app, elements):
             'animationEasing': 'ease-in-out',
             'boundingBox': {'x1': -500, 'y1': -500, 'x2': 500, 'y2': 500}
         },
-        stylesheet=default_stylesheet, ),
+        stylesheet=queried_stylesheet, ),
 
         html.Div(
             id='node-info',
