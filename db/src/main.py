@@ -7,13 +7,11 @@ from viz.stylesheets import default_stylesheet
 from dash.dependencies import Input, Output, State
 from views import my_blueprint
 from layouts.layout_manager import update_layout
+from components import social_footer, make_lifecycle, header, services, notes, lifecycle_label
+
 cyto.load_extra_layouts()
 
-twitter = 'static/twitter.svg'
-linkedin = 'static/linkedin.svg'
-facebook = 'static/facebook.svg'
-instagram = 'static/instagram.svg'
-tiktok = 'static/tiktok.svg'
+
 info = 'static/info.svg'
 
 
@@ -92,38 +90,7 @@ def parse_elements(data):
 
 
 def build_service_pills(items):
-
     return html.Span([dbc.Badge(str(service), pill=True, color="warning", className="m-2") for service in items])
-
-
-
-import dash_bootstrap_components as dbc
-
-
-def make_lifecycle(lifecycles):
-    # Define a list of all possible lifecycles
-    all_lifecycles = ["Idea", "Seed", "Startup", "Growth", "Mature", "Exit"]
-    # Create an empty list to store the Collapse components
-    collapses = []
-    # Iterate over all lifecycles and create a Collapse component for each
-    for lifecycle in all_lifecycles:
-        # Determine whether the Collapse should be initially open and/or disabled
-        if lifecycle in lifecycles:
-            style = {}
-        else:
-            style = {"color": "lightgrey"}
-        # Create the Collapse component
-        collapse = dbc.Collapse(
-            [
-                dbc.CardBody(lifecycle),
-
-            ],
-            id=f"collapse-{lifecycle}",
-            is_open=True,
-            style=style,
-        )
-        collapses.append(collapse)
-    return dbc.CardBody(collapses, style={"border": "none"})
 
 
 @app.route('/update')
@@ -156,45 +123,14 @@ def display_node_info(node_data):
         elements = get_elements(get_single_element(node_data["label"]))
         o, l, s, lc = parse_elements(elements)
 
-        img = html.Img(src=info, id="click-target", style={'width': '14px', 'height': '14px', }, className="mx-2")
-        popover = dbc.Popover(
-            "DUMMY TEXT",
-            target="click-target",
-            body=True,
-            trigger="click",
-            placement="left"
-        )
-        lifecycle_stages = html.P("Lifecycle Stages")
-
         node_info_contents = dbc.Card(
             [
-                dbc.CardHeader([
-                    html.H3(html.A(o['label'], href=o["website"])),
-                    # html.Button("X", id="dismiss-btn", className="ml-auto")
-                ]),
-                dbc.CardBody(o["notes"]),
-                build_service_pills(s),
-                html.Img(src=info, id="click-target", style={'width': '14px', 'height': '14px',  }, className="mx-2"),
-
-                dbc.Popover(
-                    "DUMMY TEXT",
-                    target="click-target",
-                    body=True,
-                    trigger="click",
-                    placement="left"
-
-                ),
-                html.P("Lifecycle Stages"),
+                header(o),
+                notes(o),
+                lifecycle_label(),
+                services(s),
                 make_lifecycle(lc),
-                dbc.CardFooter([
-                    html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                    html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                    html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                    html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                    html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"),
-
-                ]
-                ),
+                social_footer(),
             ], id="node-info",
             style={'border': '1px solid #ddd'})
         return node_info_contents
