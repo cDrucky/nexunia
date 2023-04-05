@@ -1,8 +1,8 @@
 default_query = """
 MATCH (o:Organization)
-MATCH (o)-[:SERVICES]->(l:Location)
-MATCH (o)-[:PROVIDES]->(lc:Lifecycle)
-MATCH (o)-[:HANDLES]->(s:Service)
+OPTIONAL MATCH (o)-[:SERVICES]->(l:Location)
+OPTIONAL MATCH (o)-[:PROVIDES]->(lc:Lifecycle)
+OPTIONAL MATCH (o)-[:HANDLES]->(s:Service)
 RETURN o, l, lc, s
 """
 
@@ -18,16 +18,6 @@ def full_params_query(location="Harrisburg", lifecycle="Growth", services="Fundi
     _query += "RETURN o, l, lc, s"
     return _query
 
-# def service_expansion_query(organization_name, location, lifecycle):
-#     query = (
-#         f"MATCH (o:Organization)-[:SERVICES]->(l:Location) WHERE l.name = '{location}' "
-#         f"MATCH (o)-[:PROVIDES]->(lc:Lifecycle) WHERE lc.name = '{lifecycle}' "
-#         f"MATCH (o)-[:HANDLES]->(s:Service) WHERE o.name = '{organization_name}' "
-#         "RETURN o, l, lc, s"
-#     )
-#     print(query)
-#     return query
-
 
 def service_expansion_query(organization_name, location, lifecycle):
     query = (
@@ -36,7 +26,18 @@ def service_expansion_query(organization_name, location, lifecycle):
         f"WHERE o.name = '{organization_name}'\n"
         "RETURN o, l, lc, s"
     )
-    # print(query)
+    return query
+
+
+def get_single_element(organization_name):
+    query = (
+        f"MATCH (o:Organization {{name: '{organization_name}'}})"
+        f"OPTIONAL MATCH (o)-[:PROVIDES]->(lc:Lifecycle)\n"
+        f"OPTIONAL MATCH (o)-[:HANDLES]->(s:Service)\n"
+        f"OPTIONAL MATCH (o)-[:SERVICES]->(l:Location)\n"
+        f"OPTIONAL MATCH (o)-[:HANDLES]->(s:Service)\n"
+        "RETURN o, l, lc, s"
+    )
     return query
 
 
