@@ -10,13 +10,21 @@ tiktok = 'static/tiktok.svg'
 info = 'static/info.svg'
 
 
-def social_footer():
-    return dbc.CardFooter([
-                        html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                        html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                        html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                        html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"),
-                        html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"),
+def parse_socials(o):
+    print(o)
+    socials = []
+    if o['linkedin']:
+        socials.append(html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"))
+    if o['twitter']:
+        socials.append(html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"))
+    if o['facebook']:
+        socials.append(html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"))
+    if o['instagram']:
+        socials.append(html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"))
+    if o['tiktok']:
+        socials.append(html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"))
+    return socials
 
-                    ]
-                )
+
+def social_footer(o):
+    return dbc.CardFooter(parse_socials(o))
