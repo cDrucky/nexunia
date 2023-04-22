@@ -8,24 +8,14 @@ from dash.dependencies import Input, Output, State
 from views import my_blueprint
 from layouts.layout_manager import update_layout
 from components import social_footer, make_lifecycle, header, services, notes, lifecycle_label
+from objects import UrlParams
 
 cyto.load_extra_layouts()
 
 
 info = 'static/info.svg'
 
-
-class _URL_PARAMS:
-    def __init__(self):
-        self.location = ""
-        self.lifecycle = ""
-        self.services = ""
-
-    def __str__(self):
-        return f"Location {self.location}, Lifecycle: {self.lifecycle}, Services: {self.services}"
-
-
-_url_params = _URL_PARAMS()
+_url_params = UrlParams()
 
 external_stylesheets = [
     dbc.themes.BOOTSTRAP,
@@ -89,10 +79,6 @@ def parse_elements(data):
     return organization, locations, services, lifecycles
 
 
-def build_service_pills(items):
-    return html.Span([dbc.Badge(str(service), pill=True, color="warning", className="m-2") for service in items])
-
-
 @app.route('/update')
 def update_elements():
     location = request.args.getlist('location')
@@ -107,8 +93,6 @@ def update_elements():
     updated_elements = get_elements(updated_query)
     update_layout(dash_app, updated_elements)
     return dash_app.index()
-
-
 
 
 @dash_app.callback(
@@ -134,18 +118,6 @@ def display_node_info(node_data):
             ], id="node-info",
             style={'border': '1px solid #ddd'})
         return node_info_contents
-
-# @dash_app.callback(
-#     Output('node-info', 'children'),
-#     Input('dismiss-btn', 'n_clicks'),
-#     State('node-info', 'children')
-# )
-# def dismiss_node_info(n_clicks, node_info_children):
-#     print("TEST")
-#     if n_clicks:
-#         return None
-#     else:
-#         return node_info_children
 
 
 if __name__ == '__main__':
