@@ -130,7 +130,7 @@ def display_node_info(node_data):
                 lifecycle_label(),
                 services(s),
                 make_lifecycle(lc),
-                social_footer(),
+                social_footer(o),
             ], id="node-info",
             style={'border': '1px solid #ddd'})
         return node_info_contents

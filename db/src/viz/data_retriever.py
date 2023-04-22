@@ -1,5 +1,6 @@
 from utils import graph
 
+
 def map_node_type_to_color(node_type):
     type_to_color = {
         'Organization': 'red',
@@ -8,17 +9,6 @@ def map_node_type_to_color(node_type):
         'Service': 'yellow'
     }
     return type_to_color.get(node_type, 'gray')
-
-
-def map_node_type_to_radius(node_type):
-    type_to_concentricity = {
-        'Organization': 1,
-        'Location': 2,
-        'Lifecycle': 2,
-        'Service': 2
-    }
-    return type_to_concentricity.get(node_type, 1)
-
 
 
 def get_nodes(record, nodes):
@@ -37,10 +27,14 @@ def get_nodes(record, nodes):
                         'label': record[node_type].get('name'),
                         'website': record[node_type].get('website') if node_type == 'o' else None,
                         'notes': record[node_type].get('notes') if node_type == 'o' else None,
-                        'address': record[node_type].get('address') if node_type == 'l' else None,
+                        'address': record[node_type].get('address') if node_type == 'o' else None,
                         'node_type': label_attr,
                         'node_color': map_node_type_to_color(label_attr),
-                        'concentricity': map_node_type_to_radius(label_attr)
+                        'linkedin': record[node_type].get('linkedin') if node_type == 'o' else None,
+                        'twitter': record[node_type].get('twitter') if node_type == 'o' else None,
+                        'facebook': record[node_type].get('facebook') if node_type == 'o' else None,
+                        'instagram': record[node_type].get('instagram') if node_type == 'o' else None,
+                        'tiktok': record[node_type].get('tiktok') if node_type == 'o' else None,
                     }
                 })
 

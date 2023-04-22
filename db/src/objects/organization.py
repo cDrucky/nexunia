@@ -15,4 +15,9 @@ class Organization:
     lifecycle_stage: list
     serviced_locations: list
     services_rendered: list
+    linkedin: str
+    twitter: str
+    facebook: str
+    instagram: str
+    tiktok: str
 

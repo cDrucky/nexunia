@@ -10,7 +10,7 @@ database_user = os.getenv("DATABASE_USER")
 database_uri = os.getenv("DATABASE_HOST")
 graph = Graph(database_uri, user=database_user, password=database_password)
 
-sheet = get_file()
-df = get_df(sheet, 6)
+# sheet = get_file()
+# df = get_df(sheet, 6)
 
-orgs = df.apply(build_organization, axis=1)
+# orgs = df.apply(build_organization, axis=1)

@@ -41,7 +41,8 @@ def build_organization(df_row):
     ]
     return Organization(df_row['ID'], df_row['Organization'], df_row['Address'],
                         df_row['Location'], df_row['Notes'], df_row['Website'], df_row['Parent Organization'],
-                        ["Industry"], services, business_lifecycle, serviced_locations, services_rendered)
+                        ["Industry"], services, business_lifecycle, serviced_locations, services_rendered,
+                        df_row['LinkedIn'], df_row['Twitter'], df_row['Facebook'], df_row['Instagram'], df_row['TikTok'])
 
 
 
