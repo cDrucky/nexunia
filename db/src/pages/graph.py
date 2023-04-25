@@ -1,7 +1,7 @@
 from dash import html, register_page, dcc
 import dash_bootstrap_components as dbc
 import dash_cytoscape as cyto
-from viz import get_elements, full_params_query, default_query, get_single_element
+from viz import get_elements, default_query
 from viz.stylesheets import default_stylesheet
 
 
