@@ -13,8 +13,9 @@ def full_params_query(location="Harrisburg", lifecycle="Growth", services="Fundi
     _query += f"WHERE l.name in {location} "
     _query += "MATCH (o)-[:PROVIDES]->(lc:Lifecycle) "
     _query += f"WHERE lc.name in {lifecycle} "
+    _query += "MATCH (o)-[:HANDLES]->(Service) "
+    _query += f"WHERE Service.name IN {services} "
     _query += "MATCH (o)-[:HANDLES]->(s:Service) "
-    _query += f"WHERE s.name IN {services} "
     _query += "RETURN o, l, lc, s"
     return _query
 
