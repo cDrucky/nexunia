@@ -20,6 +20,7 @@ info = "static/info.svg"
 external_stylesheets = [
     dbc.themes.BOOTSTRAP,
     "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+    "static/custom.css"
 ]
 
 
