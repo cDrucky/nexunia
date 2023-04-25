@@ -11,7 +11,6 @@ info = 'static/info.svg'
 
 
 def parse_socials(o):
-    print(o)
     socials = []
     if o['linkedin']:
         socials.append(html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"))
