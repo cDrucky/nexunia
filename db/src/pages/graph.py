@@ -1,5 +1,4 @@
 from dash import html, register_page, dcc
-import dash_bootstrap_components as dbc
 import dash_cytoscape as cyto
 from viz import get_elements, default_query
 from viz.stylesheets import default_stylesheet
@@ -43,29 +42,6 @@ layout = html.Div([
                 "top": "0px",
                 "right": "0px",
                 "width": "20rem",
-            },
-        ),
-        dbc.Row(
-            [
-                dbc.Col(
-                    dcc.Link(
-                        dbc.Button(
-                            "Print",
-                            id="print",
-                            color="primary",
-                            className="mr-1",
-                        ),
-                        href="/print",
-                        target="_blank",
-                        id="print-link",
-                    ),
-                ),
-            ],
-            style={
-                "position": "absolute",
-                "bottom": "20px",
-                "left": "20px",
-                "z-index": "1000",
             },
         ),
     ])

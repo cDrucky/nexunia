@@ -1,5 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash import html
+from objects import Lifecycle, base
 
 info = 'static/info.svg'
 
@@ -21,10 +22,14 @@ def lifecycle_label():
 
 
 def popover(pop_id="click-target"):
+    try:
+        text = Lifecycle[pop_id.upper()].value["DESCRIPTION"]
+    except KeyError:
+        text = base
     i = html.Img(src=info, id=pop_id, style={'width': '14px', 'height': '14px', 'margin-left': '3px'}, className="mb-3")
 
     i_info = dbc.Popover(
-        "DUMMY TEXT",
+        text,
         target=pop_id,
         body=True,
         trigger="hover",
@@ -36,7 +41,7 @@ def popover(pop_id="click-target"):
 
 
 def make_lifecycle(lifecycles):
-    all_lifecycles = ["Idea", "Seed", "Startup", "Growth", "Mature", "Exit"]
+    all_lifecycles = [member.value["NAME"] for member in Lifecycle.__members__.values()]
 
     lgi = []
     for lifecycle in all_lifecycles:

@@ -2,6 +2,12 @@ from dash import html, register_page
 import dash_bootstrap_components as dbc
 from viz import get_elements, full_params_query
 from dataclasses import dataclass
+from datetime import date
+
+today = date.today()
+human_friendly_date = today.strftime("%B %d, %Y")
+
+
 
 
 def create_organization_objects(elements):
@@ -70,10 +76,24 @@ register_page(
 )
 
 
-def create_services_pills(services, notes):
+def create_services_pills(services):
     pills = [dbc.Badge(s, pill=True, color="warning", className="m-2") for s in services]
-    pills.append(html.P(notes))
     return pills
+
+
+def create_notes_cardbody(notes):
+    notes = str(notes)
+    truncated_notes = notes[:350] + "..." if len(notes) > 350 else notes
+    return dbc.CardBody(
+        html.P(truncated_notes),
+        style={'height': '15vw', 'overflow': 'hidden'}
+    )
+
+
+def create_name_header(name):
+    name = str(name)
+    truncated_name = name[:32] + "..." if len(name) > 35 else name
+    return dbc.CardHeader(truncated_name)
 
 
 def create_org_cards(organizations):
@@ -88,14 +108,15 @@ def create_org_cards(organizations):
         footer = dbc.CardFooter(footer_children)
 
         card = dbc.Card([
-            dbc.CardHeader(o.name),
+            create_name_header(o.name),
             dbc.CardBody(
-                create_services_pills(o.services, o.notes),
+                create_services_pills(o.services),
             ),
+            create_notes_cardbody(o.notes),
             footer
-        ])
+        ], style={'height': '25vw', 'overflow': 'hidden'})
 
-        cards.append(dbc.Col(card, width=3, className="mb-4"))
+        cards.append(dbc.Col(card, width=4, className="mb-4"))
 
     return dbc.Row(cards, className="mx-auto")
 
@@ -107,16 +128,20 @@ def layout(location=None, lifecycle=None, services=None, **other_unknown_query_s
         organizations = create_organization_objects(elements)
         return html.Div([
             dbc.Container([
-                html.Div(className="text-end", children=[
+                html.Div(children=[
                     html.Img(
-                        width="10%",
-                        src="https://ouryorkmedia.com/wp-content/uploads/2021/08/wrv.png",
+                        width="25%",
+                        src="static/WayFinder-Yellow-Vert.png",
                         className="img-fluid"
                     )
                 ]),
-                html.Span("Location: Harrisburg"),
+                html.Span(f"Data: {human_friendly_date}"),
                 html.Br(),
-                html.Span("Service: Funding"),
+                html.Span(f"Location: {location}"),
+                html.Br(),
+                html.Span(f"Service Type: {services}"),
+                html.Br(),
+                html.Span(f"Lifecycle: {lifecycle}"),
                 dbc.Row(
                     create_org_cards(organizations)
                 )
