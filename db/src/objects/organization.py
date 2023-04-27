@@ -3,21 +3,20 @@ from dataclasses import dataclass
 
 @dataclass
 class Organization:
-    id: int
     name: str
-    address: str
-    location: str
-    notes: str
-    website: str
-    parent_organization: str
-    industry: list
-    service: list
-    lifecycle_stage: list
     serviced_locations: list
-    services_rendered: list
+    parent_organization_1: str
+    parent_organization_2: str
+    parent_organization_3: str
+    address: str
+    website: str
+    notes: str
+    lifecycle_stage: list
+    # industry: list
+    services: list
     linkedin: str
     twitter: str
-    facebook: str
     instagram: str
+    facebook: str
     tiktok: str
 
