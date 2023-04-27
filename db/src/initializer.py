@@ -27,12 +27,12 @@ def generate_org_relationships():
 
 
 def initialize_app():
-    # create_lifecycle_node()
-    # print("Created lifecycle nodes")
-    # create_location_node()
-    # print("Created location nodes")
-    # create_service_node()
-    # print("Created service nodes")
+    create_lifecycle_node()
+    print("Created lifecycle nodes")
+    create_location_node()
+    print("Created location nodes")
+    create_service_node()
+    print("Created service nodes")
 
     generate_org_nodes()
     generate_org_relationships()
