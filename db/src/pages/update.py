@@ -23,8 +23,9 @@ register_page(
 
 def layout(location=None, lifecycle=None, services=None, **other_unknown_query_strings):
     if location and lifecycle and services:
-
-        query = full_params_query([location],[lifecycle], [services])
+        location = location.split(",")
+        services = services.split(",")
+        query = full_params_query(location,[lifecycle], services)
         elements = get_elements(query)
         return html.Div([
             cyto.Cytoscape(
