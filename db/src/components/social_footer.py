@@ -12,16 +12,16 @@ info = 'static/info.svg'
 
 def parse_socials(o):
     socials = []
-    if o['linkedin']:
-        socials.append(html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"))
-    if o['twitter']:
-        socials.append(html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"))
-    if o['facebook']:
-        socials.append(html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"))
-    if o['instagram']:
-        socials.append(html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"))
-    if o['tiktok']:
-        socials.append(html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"))
+    if isinstance(o['linkedin'], str):
+        socials.append(html.A(html.Img(src=linkedin, style={'width': '16px', 'height': '16px',}, className="mx-2"), href=o['linkedin']))
+    if isinstance(o['twitter'], str):
+        socials.append(html.A(html.Img(src=twitter, style={'width': '16px', 'height': '16px',}, className="mx-2"), href=o['twitter']))
+    if isinstance(o['facebook'], str):
+        socials.append(html.A(html.Img(src=facebook, style={'width': '16px', 'height': '16px',}, className="mx-2"), href=o['facebook']))
+    if isinstance(o['instagram'], str):
+        socials.append(html.A(html.Img(src=instagram, style={'width': '16px', 'height': '16px',}, className="mx-2"), href=o['instagram']))
+    if isinstance(o['tiktok'], str):
+        socials.append(html.A(html.Img(src=tiktok, style={'width': '16px', 'height': '16px', }, className="mx-2"), href=o['tiktok']))
     return socials
 
 

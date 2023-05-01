@@ -23,7 +23,7 @@ register_page(
 layout = html.Div([
         cyto.Cytoscape(
             id="cytoscape-graph",
-            style={"width": "100vw", "height": "100vh"},
+            style={"width": "100%", "height": "100vh"},
             elements=get_elements(default_query),
             layout={
                 "name": "cose-bilkent",

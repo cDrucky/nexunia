@@ -30,7 +30,7 @@ def layout(location=None, lifecycle=None, services=None, **other_unknown_query_s
         return html.Div([
             cyto.Cytoscape(
                 id="cytoscape-graph",
-                style={"width": "100vw", "height": "100vh"},
+                style={"width": "100%", "height": "100vh"},
                 elements=elements,
                 layout={
                     'name': 'circle',
@@ -57,9 +57,13 @@ def layout(location=None, lifecycle=None, services=None, **other_unknown_query_s
                     dbc.Col(
                         dcc.Link(
                             dbc.Button(
-                                "Print",
+                                html.Img(src="static/PrintIcon-Dark.png",
+                                         style={"width": "2rem", "height": "2rem"}),
                                 id="print",
-                                color="primary",
+                                style={
+                                    "background-color": "#5BBBCF",
+                                    "border-color": "#5BBBCF",
+                                },
                                 className="mr-1",
                             ),
                             href=f"/print?location={location}&lifecycle={lifecycle}&services={services}",

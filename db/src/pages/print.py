@@ -123,7 +123,7 @@ def create_org_cards(organizations):
 
 def layout(location=None, lifecycle=None, services=None, **other_unknown_query_strings):
     if location and lifecycle and services:
-        query = full_params_query([location], [lifecycle], [services])
+        query = full_params_query(location, [lifecycle], services)
         elements = get_elements(query)
         organizations = create_organization_objects(elements)
         return html.Div([
