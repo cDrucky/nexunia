@@ -2,6 +2,11 @@ from dash import html, register_page, dcc
 import dash_cytoscape as cyto
 from viz import get_elements, default_query
 from viz.stylesheets import default_stylesheet
+import random
+
+
+def repulsion():
+    return random.randint(999000, 10001000)
 
 
 def title():
@@ -33,7 +38,11 @@ layout = html.Div([
                 "nodeOverlap": -10,
                 "nodeRepulsion": 1000000,
             },
+            minZoom=0.3,
+            maxZoom=1.5,
+            zoom=1.3,
             stylesheet=default_stylesheet,
+            responsive=True,
         ),
         html.Div(
             id="node-info",

@@ -77,7 +77,7 @@ register_page(
 
 
 def create_services_pills(services):
-    pills = [dbc.Badge(s, pill=True, color="warning", className="m-2") for s in services]
+    pills = [dbc.Badge(s, pill=True, color="#F7D162", className="m-2") for s in services]
     return pills
 
 
@@ -86,7 +86,7 @@ def create_notes_cardbody(notes):
     truncated_notes = notes[:350] + "..." if len(notes) > 350 else notes
     return dbc.CardBody(
         html.P(truncated_notes),
-        style={'height': '15vw', 'overflow': 'hidden'}
+        style={'height': '15vw', 'overflow': 'hidden', 'padding-top': '5px'}
     )
 
 
@@ -101,7 +101,7 @@ def create_org_cards(organizations):
     for o in organizations:
         footer_children = []
         if o.website:
-            footer_children.append(html.Span(f"Website: {o.website}"))
+            footer_children.append(html.Span(f"Website: {o.website}", style={"font-size": "0.8rem"}))
         if o.phone:
             footer_children.append(html.Span(f"Phone Number: {o.phone}"))
 
@@ -109,12 +109,12 @@ def create_org_cards(organizations):
 
         card = dbc.Card([
             create_name_header(o.name),
-            dbc.CardBody(
-                create_services_pills(o.services),
+            html.Span(
+                create_services_pills(o.services), className="ml-3", style={'padding-bottom': '2px'}
             ),
             create_notes_cardbody(o.notes),
             footer
-        ], style={'height': '25vw', 'overflow': 'hidden'})
+        ], style={'height': '30vw', 'overflow': 'hidden'})
 
         cards.append(dbc.Col(card, width=4, className="mb-4"))
 
@@ -129,19 +129,30 @@ def layout(location=None, lifecycle=None, services=None, **other_unknown_query_s
         return html.Div([
             dbc.Container([
                 html.Div(children=[
-                    html.Img(
-                        width="25%",
-                        src="static/WayFinder-Yellow-Vert.png",
-                        className="img-fluid"
-                    )
+                    dbc.Row(
+                        [
+                            dbc.Col([
+                                html.Img(
+                                    width="100%",
+                                    src="static/WayFinder-Yellow-Vert.png",
+                                    className="img-fluid"
+                                ),
+                            ], width=2),
+                            dbc.Col(
+                                [
+                                    html.Span(f"Data: {human_friendly_date}"),
+                                    html.Br(),
+                                    html.Span(f"Location: {location}"),
+                                    html.Br(),
+                                    html.Span(f"Service Type: {services}"),
+                                    html.Br(),
+                                    html.Span(f"Lifecycle: {lifecycle}"),
+                                ], class_name="mt-3"
+                            )
+                        ]
+                    ),
                 ]),
-                html.Span(f"Data: {human_friendly_date}"),
-                html.Br(),
-                html.Span(f"Location: {location}"),
-                html.Br(),
-                html.Span(f"Service Type: {services}"),
-                html.Br(),
-                html.Span(f"Lifecycle: {lifecycle}"),
+
                 dbc.Row(
                     create_org_cards(organizations)
                 )
