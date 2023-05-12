@@ -23,8 +23,8 @@ def display_node_info(node_data):
             [
                 header(o),
                 notes(o),
-                lifecycle_label(),
                 services(s),
+                lifecycle_label(),
                 make_lifecycle(lc),
                 social_footer(o),
             ],

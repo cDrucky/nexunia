@@ -27,8 +27,8 @@ class Lifecycle(Enum):
         "DESCRIPTION": "You have demonstrated product-market fit. You need to grow capacity to meet demand. You are "
                        "discovering competitors. You have revenue and may or may not be profitable."
     }
-    MATURITY = {
-        "NAME": "Maturity",
+    MATURE = {
+        "NAME": "Mature",
         "DESCRIPTION": "You have an established company with a clear portion of the market and devoted customers."
     }
     EXIT = {

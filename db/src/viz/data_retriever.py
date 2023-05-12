@@ -3,10 +3,10 @@ from utils import graph
 
 def map_node_type_to_color(node_type):
     type_to_color = {
-        'Organization': 'red',
-        'Location': 'blue',
-        'Lifecycle': 'green',
-        'Service': 'yellow'
+        'Location': '#E9675B',
+        'Organization': '#5BBBCF',
+        'Lifecycle': '#ED894A',
+        'Service': '#F7D162'
     }
     return type_to_color.get(node_type, 'gray')
 

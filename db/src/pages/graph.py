@@ -23,13 +23,13 @@ register_page(
 layout = html.Div([
         cyto.Cytoscape(
             id="cytoscape-graph",
-            style={"width": "100vw", "height": "100vh"},
+            style={"width": "100%", "height": "80vh"},
             elements=get_elements(default_query),
             layout={
                 "name": "cose-bilkent",
                 "minNodeSpacing": 1200,
                 "spacingFactor": 1.5,
-                "boundingBox": {"x1": -500, "y1": -500, "x2": 1500, "y2": 1500},
+                "boundingBox": {"x1": 0, "y1": 0, "x2": 1500, "y2": 1500},
                 "nodeOverlap": -10,
                 "nodeRepulsion": 1000000,
             },
