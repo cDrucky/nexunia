@@ -20,27 +20,37 @@ register_page(
     path="/update",
 )
 
+def determine_spacing_factor(num_elements):
+    if num_elements < 100:
+        return 1
+    return 2
+
 
 def layout(location=None, lifecycle=None, services=None, **other_unknown_query_strings):
     if location and lifecycle and services:
         location = location.split(",")
         services = services.split(",")
-        query = full_params_query(location,[lifecycle], services)
+        query = full_params_query(location, [lifecycle], services)
         elements = get_elements(query)
+        spacing_factor=determine_spacing_factor(len(elements))
+
         return html.Div([
             cyto.Cytoscape(
                 id="cytoscape-graph",
-                style={"width": "100%", "height": "80vh"},
+                style={"width": "100%", "height": "100vh"},
                 elements=elements,
                 layout={
                     'name': 'circle',
                     'minNodeSpacing': 200,
-                    'spacingFactor': 2,
+                    'spacingFactor': spacing_factor,
                     'animate': True,
                     'animationDuration': 500,
                     'animationEasing': 'ease-in-out',
                     'boundingBox': {'x1': -500, 'y1': -500, 'x2': 500, 'y2': 500}
                 },
+                minZoom=0.25,
+                maxZoom=1.5,
+                responsive=True,
                 stylesheet=default_stylesheet,
             ),
             html.Div(
