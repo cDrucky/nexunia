@@ -1,4 +1,8 @@
-from utils import graph
+from utils import make_graph
+import smtplib
+from email.message import EmailMessage
+import py2neo
+
 
 
 def map_node_type_to_color(node_type):
@@ -68,7 +72,28 @@ def get_edges(record, edges):
 
 
 def get_elements(query):
-    results = graph.run(query)
+
+    graph = make_graph()
+    try:
+        results = graph.run(query)
+    except py2neo.errors.ServiceUnavailable as e:
+        # Send email alert
+        msg = EmailMessage()
+        msg.set_content("Neo4j database is unavailable." + query)
+        msg['Subject'] = "BOUNCE APP"
+        msg['From'] = "wrv.brc.marketing@gmail.com"
+        msg['To'] = "cldruckemiller@gmail.com"
+
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+        smtp_username = "wrv.brc.marketing@gmail.com"
+        smtp_password = "kybrlwdywbixltth"
+        with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+            smtp.starttls()
+            smtp.login(smtp_username, smtp_password)
+            smtp.send_message(msg)
+        # Raise exception again to handle it in the calling function
+        raise e
 
     nodes = []
     edges = []
@@ -79,4 +104,5 @@ def get_elements(query):
 
     elements = nodes + edges
     return elements
+
 

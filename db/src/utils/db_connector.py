@@ -1,9 +1,11 @@
 from py2neo import Relationship, Node
 from .business_lifecycles import BusinessLifecycles
 from .locations import Locations
-from utils import graph as _graph
+from utils import make_graph
 from .services import Services
 
+
+_graph = make_graph()
 
 def create_org_nodes(orgs):
     for org in orgs:
